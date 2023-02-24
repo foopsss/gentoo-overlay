@@ -1,0 +1,68 @@
+Only in GIT/shell-color-scripts: LICENSE
+diff -ru GIT/shell-color-scripts/Makefile PATCHES/shell-color-scripts/Makefile
+--- GIT/shell-color-scripts/Makefile	2022-12-24 20:08:23.662040673 -0300
++++ PATCHES/shell-color-scripts/Makefile	2023-01-03 15:37:46.481750989 -0300
+@@ -1,12 +1,6 @@
+-clean: 
+-	rm -rf /opt/shell-color-scripts
+-
+-install: clean
+-	mkdir -p /opt/shell-color-scripts/colorscripts
+-	cp -rf colorscripts/* /opt/shell-color-scripts/colorscripts
+-	cp colorscript.sh /usr/local/bin/colorscript
+-
+-uninstall:
+-	rm -rf /opt/shell-color-scripts
+-	rm -f /usr/local/bin/colorscript
+-
++install:
++	install -Dm755 completions/_colorscript ${D}/usr/share/zsh/_colorscript
++	install -Dm755 completions/colorscript.fish ${D}/usr/share/fish/vendor_completions.d/colorscript.fish
++	install -Dm755 colorscripts/* -t ${D}/usr/libexec/shell-color-scripts/colorscripts
++	install -Dm755 colorscript.sh ${D}/usr/bin/colorscript
++	install -Dm644 colorscript.1 ${D}/usr/share/man/man1/colorscript.1
+Only in GIT/shell-color-scripts: README.md
+Only in GIT/shell-color-scripts: colorscript.1
+diff -ru GIT/shell-color-scripts/colorscript.sh PATCHES/shell-color-scripts/colorscript.sh
+--- GIT/shell-color-scripts/colorscript.sh	2022-12-24 20:08:23.663040673 -0300
++++ PATCHES/shell-color-scripts/colorscript.sh	2022-12-24 21:09:15.287889319 -0300
+@@ -5,7 +5,7 @@
+ if [[ "$DEV" -gt 0 ]]; then
+     DIR_COLORSCRIPTS="./colorscripts"
+ else
+-    DIR_COLORSCRIPTS="/opt/shell-color-scripts/colorscripts"
++    DIR_COLORSCRIPTS="/usr/libexec/shell-color-scripts/colorscripts"
+ fi
+ 
+ if command -v find &>/dev/null; then
+Only in GIT/shell-color-scripts: colorscripts
+diff -ru GIT/shell-color-scripts/completions/_colorscript PATCHES/shell-color-scripts/completions/_colorscript
+--- GIT/shell-color-scripts/completions/_colorscript	2022-12-24 20:08:23.672040673 -0300
++++ PATCHES/shell-color-scripts/completions/_colorscript	2022-12-24 21:10:53.466884374 -0300
+@@ -1,6 +1,6 @@
+ #compdef colorscript
+ 
+-DIR_COLORSCRIPTS="/opt/shell-color-scripts/colorscripts"
++DIR_COLORSCRIPTS="/usr/libexec/shell-color-scripts/colorscripts"
+ if command -v find &>/dev/null; then
+     LS_CMD="$(command -v find) ${DIR_COLORSCRIPTS} -maxdepth 1 -type f | xargs -I$ basename $"
+ else
+diff -ru GIT/shell-color-scripts/completions/colorscript.fish PATCHES/shell-color-scripts/completions/colorscript.fish
+--- GIT/shell-color-scripts/completions/colorscript.fish	2022-12-24 20:08:23.672040673 -0300
++++ PATCHES/shell-color-scripts/completions/colorscript.fish	2022-12-24 21:11:34.678882298 -0300
+@@ -3,7 +3,7 @@
+ # according to https://fishshell.com/docs/current/completions.html
+ # function
+ 
+-set dir_colorscripts "/opt/shell-color-scripts/colorscripts"
++set dir_colorscripts "/usr/libexec/shell-color-scripts/colorscripts"
+ set dir_blacklisted_colorscripts "$dir_colorscripts/blacklisted"
+ 
+ # Lists all filenames in a given directory
+@@ -75,4 +75,4 @@
+ 
+ # Blacklisted colorscript name autocompletions
+ set -l commands_that_take_blacklisted_names -u --unblacklist unblacklist
+-complete -c colorscript -n "__fish_seen_subcommand_from $commands_that_take_blacklisted_names" -a '(blacklisted_cs_names)'
+\ No newline at end of file
++complete -c colorscript -n "__fish_seen_subcommand_from $commands_that_take_blacklisted_names" -a '(blacklisted_cs_names)'

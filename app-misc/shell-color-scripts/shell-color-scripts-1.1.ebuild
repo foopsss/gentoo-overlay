@@ -18,19 +18,6 @@ RDEPEND="${DEPEND}"
 BDEPEND="sys-devel/make"
 
 src_prepare() {
+	eapply -p2 "${FILESDIR}/${PN}.patch"
 	eapply_user
-
-	sed -i 's!/opt/shell-color-scripts/colorscripts!/usr/libexec/shell-color-scripts/colorscripts!' colorscript.sh || die "Sed failed!"
-	sed -i 's!/opt/shell-color-scripts/colorscripts!/usr/libexec/shell-color-scripts/colorscripts!' completions/_colorscript || die "Sed failed!"
-	sed -i 's!/opt/shell-color-scripts/colorscripts!/usr/libexec/shell-color-scripts/colorscripts!' completions/colorscript.fish || die "Sed failed!"
-
-	rm Makefile
-}
-
-src_install() {
-	install -Dm755 completions/_colorscript ${D}/usr/share/zsh/_colorscript
-	install -Dm755 completions/colorscript.fish ${D}/usr/share/fish/vendor_completions.d/colorscript.fish
-	install -Dm755 colorscripts/* -t ${D}/usr/libexec/shell-color-scripts/colorscripts
-	install -Dm755 colorscript.sh ${D}/usr/bin/colorscript
-	install -Dm644 colorscript.1 ${D}/usr/share/man/man1/colorscript.1
 }
