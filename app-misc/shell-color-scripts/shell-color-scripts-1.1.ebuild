@@ -18,6 +18,18 @@ RDEPEND="${DEPEND}"
 BDEPEND="sys-devel/make"
 
 src_prepare() {
-	eapply -p2 "${FILESDIR}/${PN}.patch"
+	eapply -p1 "${FILESDIR}/${PN}.patch"
 	eapply_user
+}
+
+src_install() {
+	emake DESTDIR="${D}" install
+	doman colorscript.1
+	dodoc README.md
+}
+
+pkg_postinst() {
+	elog "shell-color-scripts includes shell completions for the Fish and Zsh shells."
+	elog "A help page for the program can be read using 'colorscript -h' or 'man colorscript'."
+	elog "All the colorscripts are installed to '/usr/libexec/shell-color-scripts/colorscripts'."
 }
