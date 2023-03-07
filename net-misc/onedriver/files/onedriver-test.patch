@@ -1,0 +1,43 @@
+Sólo en onedriver-0.13.0: .bumpversion.cfg
+Sólo en onedriver-0.13.0: cmd
+Sólo en onedriver-0.13.0: .copr
+Sólo en onedriver-0.13.0: curl-graph.sh
+Sólo en onedriver-0.13.0: debian
+Sólo en onedriver-0.13.0: fs
+Sólo en onedriver-0.13.0: .github
+Sólo en onedriver-0.13.0: .gitignore
+Sólo en onedriver-0.13.0: go-mod
+Sólo en onedriver-0.13.0: go.mod
+Sólo en onedriver-0.13.0: go.sum
+Sólo en onedriver-0.13.0: LICENSE
+diff -ru onedriver-0.13.0/Makefile onedriver-0.13.0-patched/Makefile
+--- onedriver-0.13.0/Makefile	2022-11-02 00:56:26.000000000 -0300
++++ onedriver-0.13.0-patched/Makefile	2023-03-07 00:56:27.260013588 -0300
+@@ -105,23 +105,6 @@
+ 	curl ftp://ftp.ensemblgenomes.org/pub/metazoa/release-42/fasta/drosophila_melanogaster/dna/Drosophila_melanogaster.BDGP6.22.dna.chromosome.X.fa.gz | zcat > $@
+ 
+ 
+-# For offline tests, the test binary is built online, then network access is
+-# disabled and tests are run. sudo is required - otherwise we don't have
+-# permission to mount the fuse filesystem.
+-test: onedriver onedriver-launcher dmel.fa
+-	rm -f *.race* fusefs_tests.log
+-	CGO_ENABLED=0 gotest -v -parallel=8 -count=1 $(shell go list ./ui/... | grep -v offline)
+-	GORACE="log_path=fusefs_tests.race strip_path_prefix=1" \
+-		gotest -race -v -parallel=8 -count=1 ./cmd/...
+-	GORACE="log_path=fusefs_tests.race strip_path_prefix=1" \
+-		gotest -race -v -parallel=8 -count=1 ./fs/graph/...
+-	GORACE="log_path=fusefs_tests.race strip_path_prefix=1" \
+-		gotest -race -v -parallel=8 -count=1 ./fs
+-	go test -c ./fs/offline
+-	@echo "sudo is required to run tests of offline functionality:"
+-	sudo unshare -n -S $(TEST_UID) -G $(TEST_GID) ./offline.test -test.v -test.parallel=8 -test.count=1
+-
+-
+ # will literally purge everything: all built artifacts, all logs, all tests,
+ # all files tests depend on, all auth tokens... EVERYTHING
+ clean:
+Sólo en onedriver-0.13.0: onedriver.spec
+Sólo en onedriver-0.13.0: README.md
+Sólo en onedriver-0.13.0: resources
+Sólo en onedriver-0.13.0: ui

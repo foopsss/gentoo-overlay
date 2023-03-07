@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM 'https://www.gentoo.org/dtd/metadata.dtd'>
+<pkgmetadata>
+	<maintainer type="person">
+		<email>46837214+foopsss@users.noreply.github.com</email>
+		<name>Lucas Benchat</name>
+	</maintainer>
+	<upstream>
+		<bugs-to>https://github.com/jstaf/onedriver/issues</bugs-to>
+	</upstream>
+	<use>
+		<flag name="gui">Enable support for a graphical user interface using GTK3.</flag>
+	</use>
+</pkgmetadata>
