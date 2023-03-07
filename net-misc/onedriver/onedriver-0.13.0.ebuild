@@ -24,10 +24,11 @@ IUSE="-gui"
 DEPEND="=net-libs/webkit-gtk-2.38.3
     dev-libs/json-glib"
 BDEPEND="dev-util/pkgconf"
-RDEPEND="${DEPEND}"
+RDEPEND=""
 
 src_prepare() {
-	# Removing tests since they require to be run as root, something that is not allowed by Portage.
+	# Removing tests since they require to be run either online or as root while offline.
+	# These things do not seem to be allowed according to what I've read.
 	# For more information, see: https://devmanual.gentoo.org/ebuild-writing/functions/src_test/index.html.
 	eapply -p1 "${FILESDIR}/${PN}-test.patch"
 	eapply_user

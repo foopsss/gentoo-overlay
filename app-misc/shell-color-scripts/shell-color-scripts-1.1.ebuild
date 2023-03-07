@@ -18,7 +18,8 @@ RDEPEND="${DEPEND}"
 BDEPEND="sys-devel/make"
 
 src_prepare() {
-	eapply -p1 "${FILESDIR}/${PN}.patch"
+	# Adding a patch to change the install location of the colorscript bin and the colorscripts.
+	eapply -p1 "${FILESDIR}/${PN}-paths.patch"
 	eapply_user
 }
 
