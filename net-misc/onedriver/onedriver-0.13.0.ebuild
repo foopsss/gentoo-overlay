@@ -23,8 +23,12 @@ IUSE="-gui"
 
 DEPEND="=net-libs/webkit-gtk-2.38.3
     dev-libs/json-glib"
+RDEPEND="
+    gui? (
+	    sys-apps/systemd
+    )
+"
 BDEPEND="dev-util/pkgconf"
-RDEPEND=""
 
 src_prepare() {
 	# Removing tests since they require to be run either online or as root while offline.
