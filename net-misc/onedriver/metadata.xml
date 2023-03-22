@@ -9,6 +9,6 @@
 		<bugs-to>https://github.com/jstaf/onedriver/issues</bugs-to>
 	</upstream>
 	<use>
-		<flag name="gui">Enable support for a graphical user interface using GTK3.</flag>
+		<flag name="gui">Enable support for a graphical user interface using GTK3. This flag also pulls in systemd, since the graphical interface depends on it.</flag>
 	</use>
 </pkgmetadata>
