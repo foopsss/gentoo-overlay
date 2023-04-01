@@ -8,8 +8,6 @@ inherit go-module
 DESCRIPTION="A native Linux filesystem for Microsoft OneDrive."
 HOMEPAGE="https://github.com/jstaf/onedriver"
 SRC_URI="https://github.com/jstaf/onedriver/archive/refs/tags/v${PV}.tar.gz -> ${P}.tar.gz"
-
-# Since there's no vendor directory, a dependency tarball has to be used.
 SRC_URI+=" https://github.com/foopsss/Ebuilds/releases/download/v${PV}/${P}-deps.tar.xz"
 
 S="${WORKDIR}/${P}"
@@ -30,13 +28,7 @@ RDEPEND="
 "
 BDEPEND="dev-util/pkgconf"
 
-src_prepare() {
-	# Removing tests since they require to be run either online or as root while offline.
-	# These things do not seem to be allowed according to what I've read.
-	# For more information, see: https://devmanual.gentoo.org/ebuild-writing/functions/src_test/index.html.
-	eapply -p1 "${FILESDIR}/${PN}-test.patch"
-	eapply_user
-}
+PATCHES=( "${FILESDIR}/${PN}-makefile-tests.patch" )
 
 src_compile() {
 	emake onedriver

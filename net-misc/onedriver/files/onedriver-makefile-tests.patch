@@ -1,18 +1,8 @@
-Sólo en onedriver-0.13.0: .bumpversion.cfg
-Sólo en onedriver-0.13.0: cmd
-Sólo en onedriver-0.13.0: .copr
-Sólo en onedriver-0.13.0: curl-graph.sh
-Sólo en onedriver-0.13.0: debian
-Sólo en onedriver-0.13.0: fs
-Sólo en onedriver-0.13.0: .github
-Sólo en onedriver-0.13.0: .gitignore
-Sólo en onedriver-0.13.0: go-mod
-Sólo en onedriver-0.13.0: go.mod
-Sólo en onedriver-0.13.0: go.sum
-Sólo en onedriver-0.13.0: LICENSE
-diff -ru onedriver-0.13.0/Makefile onedriver-0.13.0-patched/Makefile
---- onedriver-0.13.0/Makefile	2022-11-02 00:56:26.000000000 -0300
-+++ onedriver-0.13.0-patched/Makefile	2023-03-07 00:56:27.260013588 -0300
+# This patch removes tests from the Makefile.
+# This is because tests require either internet access or root permissions, things not allowed during the build.
+
+--- onedriver-0.13.0/Makefile
++++ onedriver-0.13.0-patched/Makefile
 @@ -105,23 +105,6 @@
  	curl ftp://ftp.ensemblgenomes.org/pub/metazoa/release-42/fasta/drosophila_melanogaster/dna/Drosophila_melanogaster.BDGP6.22.dna.chromosome.X.fa.gz | zcat > $@
  
@@ -37,7 +27,3 @@ diff -ru onedriver-0.13.0/Makefile onedriver-0.13.0-patched/Makefile
  # will literally purge everything: all built artifacts, all logs, all tests,
  # all files tests depend on, all auth tokens... EVERYTHING
  clean:
-Sólo en onedriver-0.13.0: onedriver.spec
-Sólo en onedriver-0.13.0: README.md
-Sólo en onedriver-0.13.0: resources
-Sólo en onedriver-0.13.0: ui
