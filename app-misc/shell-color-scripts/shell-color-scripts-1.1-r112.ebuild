@@ -17,11 +17,7 @@ DEPEND=""
 RDEPEND="${DEPEND}"
 BDEPEND="sys-devel/make"
 
-src_prepare() {
-	# Adding a patch to change the install location of the colorscript bin and the colorscripts.
-	eapply -p1 "${FILESDIR}/${PN}-paths.patch"
-	eapply_user
-}
+PATCHES=( "${FILESDIR}/${PN}-makefile.patch" )
 
 src_install() {
 	emake DESTDIR="${D}" install
@@ -32,5 +28,5 @@ src_install() {
 pkg_postinst() {
 	elog "shell-color-scripts includes shell completions for the Fish and Zsh shells."
 	elog "A help page for the program can be read using 'colorscript -h' or 'man colorscript'."
-	elog "All the colorscripts are installed to '/usr/libexec/shell-color-scripts/colorscripts'."
+	elog "All the colorscripts are installed to '/opt/shell-color-scripts/colorscripts'."
 }
