@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>46837214+foopsss@users.noreply.github.com</email>
+		<name>Lucas Benchat</name>
+	</maintainer>
+	<upstream>
+		<bugs-to>https://github.com/lassekongo83/adw-gtk3/issues</bugs-to>
+		<remote-id type="github">lassekongo83/adw-gtk3</remote-id>
+	</upstream>
+</pkgmetadata>
