@@ -8,6 +8,7 @@ package manager of [Gentoo Linux](https://gentoo.org/). These ebuilds are mainta
 |---|---|
 | app-misc/shell-color-scripts | [https://gitlab.com/dwt1/shell-color-scripts](https://gitlab.com/dwt1/shell-color-scripts) |
 | net-misc/onedriver | [https://github.com/jstaf/onedriver](https://github.com/jstaf/onedriver) |
+| x11-themes/adw-gtk3 | [https://github.com/lassekongo83/adw-gtk3](https://github.com/lassekongo83/adw-gtk3) |
 
 # Credits
 * This repo's README is inspired by the one on [ppfeufer's Gentoo overlay](https://github.com/ppfeufer/gentoo-overlay).
