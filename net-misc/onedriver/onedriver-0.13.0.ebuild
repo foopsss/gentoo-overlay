@@ -19,16 +19,22 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE="-gui"
 
-DEPEND="=net-libs/webkit-gtk-2.38.3
-    dev-libs/json-glib"
+# Restricting tests since they require to be run either online or as root.
+RESTRICT="test"
+
+DEPEND="
+    =net-libs/webkit-gtk-2.38.5
+    dev-libs/json-glib
+"
 RDEPEND="
+    ${DEPEND}
     gui? (
 	    sys-apps/systemd
     )
 "
-BDEPEND="dev-util/pkgconf"
-
-PATCHES=( "${FILESDIR}/${PN}-makefile-tests.patch" )
+BDEPEND="
+    virtual/pkgconfig
+"
 
 src_compile() {
 	emake onedriver
@@ -39,17 +45,23 @@ src_compile() {
 }
 
 src_install() {
-	install -Dm755 onedriver ${D}/usr/bin/onedriver
+	dobin onedriver
 
 	if use gui; then
-		install -Dm755 onedriver-launcher ${D}/usr/bin/onedriver-launcher
-		install -Dm644 resources/onedriver.svg ${D}/usr/share/icons/onedriver/onedriver.svg
-		install -Dm644 resources/onedriver.png ${D}/usr/share/icons/onedriver/onedriver.png
-		install -Dm644 resources/onedriver-128.png ${D}/usr/share/icons/onedriver/onedriver-128.png
-		install -Dm644 resources/onedriver.desktop ${D}/usr/share/applications/onedriver.desktop
+		dobin onedriver-launcher
+
+		dodir /usr/share/icons/onedriver
+		insinto /usr/share/icons/onedriver
+		newins resources/onedriver.svg onedriver.svg
+		newins resources/onedriver.png onedriver.png
+		newins resources/onedriver-128.png onedriver-128.png
+
+		insinto /usr/share/applications
+		newins resources/onedriver.desktop onedriver.desktop
 	fi
 
-	install -Dm644 resources/onedriver@.service ${D}/etc/systemd/user/onedriver@.service
+	insinto /etc/systemd/user
+	newins resources/onedriver@.service onedriver@.service
 
 	doman resources/onedriver.1
 	dodoc README.md
