@@ -3,7 +3,7 @@
 
 EAPI=8
 
-inherit go-module
+inherit go-module xdg-utils
 
 DESCRIPTION="A native Linux filesystem for Microsoft OneDrive."
 HOMEPAGE="https://github.com/jstaf/onedriver"
@@ -67,16 +67,21 @@ src_install() {
 	dodoc README.md
 }
 
-pkg_config() {
-	elog "Updating the manual pages index cache..."
-	mandb
-}
-
 pkg_postinst() {
+	xdg_desktop_database_update
+	xdg_icon_cache_update
+	mandb
+
 	elog "onedriver can be configured with a config file at '~/.config/onedriver/config.yml'."
 	elog ""
 	elog "It should be noted that this version of onedriver does not yet support shared items or Microsoft SharePoint."
 	elog "Moreover, the GUI and 'mount-on-login' function only work with systemd as of now."
 	elog "However, the filesystem itself works with other init systems, and the missing functionality could be added in the future."
 	elog "For more information see: https://github.com/jstaf/onedriver/issues/229."
+}
+
+pkg_postrm() {
+        xdg_desktop_database_update
+        xdg_icon_cache_update
+        mandb
 }
