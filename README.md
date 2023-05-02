@@ -10,6 +10,12 @@ package manager of [Gentoo Linux](https://gentoo.org/). These ebuilds are mainta
 | net-misc/onedriver | [https://github.com/jstaf/onedriver](https://github.com/jstaf/onedriver) |
 | x11-themes/adw-gtk3 | [https://github.com/lassekongo83/adw-gtk3](https://github.com/lassekongo83/adw-gtk3) |
 
+# How to add this repository
+```sh
+eselect repository add lucas git https://github.com/foopsss/Ebuilds.git
+emaint sync -r lucas
+```
+
 # Credits
 * This repo's README is inspired by the one on [ppfeufer's Gentoo overlay](https://github.com/ppfeufer/gentoo-overlay).
 * The [Gentoo Devmanual](https://devmanual.gentoo.org/index.html) (a very useful resource) and the [#gentoo-dev-help](https://www.gentoo.org/get-involved/irc-channels/all-channels.html) IRC channel, where I was helped by two users, cwittlut and catcream.
