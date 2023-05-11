@@ -31,6 +31,7 @@ RDEPEND="
     gui? (
 	    sys-apps/systemd
     )
+    =sys-fs/fuse-2.9.9-r2
 "
 BDEPEND="
     virtual/pkgconfig
