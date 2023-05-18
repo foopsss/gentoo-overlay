@@ -3,14 +3,12 @@
 
 EAPI=8
 
-inherit go-module xdg-utils
+inherit desktop go-module systemd xdg-utils
 
 DESCRIPTION="A native Linux filesystem for Microsoft OneDrive."
 HOMEPAGE="https://github.com/jstaf/onedriver"
 SRC_URI="https://github.com/jstaf/onedriver/archive/refs/tags/v${PV}.tar.gz -> ${P}.tar.gz"
 SRC_URI+=" https://github.com/foopsss/Ebuilds/releases/download/v${PV}/${P}-deps.tar.xz"
-
-S="${WORKDIR}/${P}"
 
 # GPL-3 is the license of onedriver.
 # The licenses mentioned afterwards belong to the statically linked dependencies listed in go.mod.
@@ -23,11 +21,11 @@ IUSE="-gui"
 RESTRICT="test"
 
 DEPEND="
-    =net-libs/webkit-gtk-2.38.5
+    dev-lang/go
     dev-libs/json-glib
+    net-libs/webkit-gtk:4/37
 "
 RDEPEND="
-    ${DEPEND}
     gui? (
 	    sys-apps/systemd
     )
@@ -36,6 +34,11 @@ RDEPEND="
 BDEPEND="
     virtual/pkgconfig
 "
+
+src_prepare() {
+	sed -i 's!Icon=/usr/share/icons/onedriver/onedriver.svg!Icon=/usr/share/pixmaps/onedriver.svg!' resources/onedriver.desktop
+	eapply_user
+}
 
 src_compile() {
 	emake onedriver
@@ -51,18 +54,14 @@ src_install() {
 	if use gui; then
 		dobin onedriver-launcher
 
-		dodir /usr/share/icons/onedriver
-		insinto /usr/share/icons/onedriver
-		newins resources/onedriver.svg onedriver.svg
-		newins resources/onedriver.png onedriver.png
-		newins resources/onedriver-128.png onedriver-128.png
+		doicon resources/onedriver.svg
+		doicon -s 128 resources/onedriver-128.png
+		doicon -s 256 resources/onedriver.png
 
-		insinto /usr/share/applications
-		newins resources/onedriver.desktop onedriver.desktop
+		domenu resources/onedriver.desktop
 	fi
 
-	insinto /etc/systemd/user
-	newins resources/onedriver@.service onedriver@.service
+	systemd_dounit resources/onedriver@.service
 
 	doman resources/onedriver.1
 	dodoc README.md
