@@ -10,20 +10,17 @@ HOMEPAGE="https://github.com/jstaf/onedriver"
 SRC_URI="https://github.com/jstaf/onedriver/archive/refs/tags/v${PV}.tar.gz -> ${P}.tar.gz"
 SRC_URI+=" https://github.com/foopsss/Ebuilds/releases/download/v${PV}/${P}-deps.tar.xz"
 
-# GPL-3 is the license of onedriver.
-# The licenses mentioned afterwards belong to the statically linked dependencies listed in go.mod.
 LICENSE="GPL-3 Apache-2.0 BSD-2-Clause ISC BSD-3-Clause MIT"
 SLOT="0"
 KEYWORDS="~amd64"
 IUSE="-gui"
 
-# Restricting tests since they require to be run either online or as root.
 RESTRICT="test"
 
 DEPEND="
     dev-lang/go
     dev-libs/json-glib
-    net-libs/webkit-gtk:4/37
+    net-libs/webkit-gtk:4
 "
 RDEPEND="
     gui? (
@@ -36,7 +33,13 @@ BDEPEND="
 "
 
 src_prepare() {
+	# Change the location of the onedriver logos in the main.go files for both onedriver and onedriver-launcher.
+	sed -i -e 's!/usr/share/icons/onedriver/onedriver.png!/usr/share/icons/hicolor/256x256/apps/onedriver.png!' cmd/onedriver/main.go
+	sed -i 's!/usr/share/icons/onedriver/onedriver-128.png!/usr/share/icons/hicolor/128x128/apps/onedriver-128.png!' cmd/onedriver-launcher/main.go
+
+	# Change the location of the .svg logo in the desktop file.
 	sed -i 's!Icon=/usr/share/icons/onedriver/onedriver.svg!Icon=/usr/share/pixmaps/onedriver.svg!' resources/onedriver.desktop
+
 	eapply_user
 }
 
@@ -61,7 +64,7 @@ src_install() {
 		domenu resources/onedriver.desktop
 	fi
 
-	systemd_dounit resources/onedriver@.service
+	systemd_douserunit resources/onedriver@.service
 
 	doman resources/onedriver.1
 	dodoc README.md
