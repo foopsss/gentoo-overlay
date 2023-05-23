@@ -71,20 +71,24 @@ src_install() {
 }
 
 pkg_postinst() {
-	xdg_desktop_database_update
-	xdg_icon_cache_update
+	if use gui; then
+		xdg_desktop_database_update
+		xdg_icon_cache_update
+	fi
 	mandb
 
 	elog "onedriver can be configured with a config file at '~/.config/onedriver/config.yml'."
 	elog ""
 	elog "It should be noted that this version of onedriver does not yet support shared items or Microsoft SharePoint."
-	elog "Moreover, the GUI and 'mount-on-login' function only work with systemd as of now."
-	elog "However, the filesystem itself works with other init systems, and the missing functionality could be added in the future."
+	elog "Moreover, mounting the filesystem from the GUI and on log-in currently requires systemd, due to using a unit file to do so."
+	elog "However, the filesystem itself works with other init systems if mounted through the CLI."
 	elog "For more information see: https://github.com/jstaf/onedriver/issues/229."
 }
 
 pkg_postrm() {
-        xdg_desktop_database_update
-        xdg_icon_cache_update
-        mandb
+	if use gui; then
+		xdg_desktop_database_update
+		xdg_icon_cache_update
+	fi
+	mandb
 }
