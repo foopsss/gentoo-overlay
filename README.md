@@ -11,8 +11,8 @@ package manager of [Gentoo Linux](https://gentoo.org/). These ebuilds are mainta
 
 # How to add this repository
 ```sh
-eselect repository add lucas git https://github.com/foopsss/Ebuilds.git
-emaint sync -r lucas
+eselect repository add foopsss-gentoo-overlay git https://github.com/foopsss/Ebuilds.git
+emaint sync -r foopsss-gentoo-overlay
 ```
 
 # Credits
