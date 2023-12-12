@@ -40,9 +40,14 @@ src_prepare() {
 
 	# Change the location of the onedriver logos.
 	# These changes are made with the intention of using more standard paths for app icons.
-	sed -i -e 's!/usr/share/icons/onedriver/onedriver.png!/usr/share/icons/hicolor/256x256/apps/onedriver.png!' cmd/onedriver/main.go || die "Icon location couldn't be changed in cmd/onedriver/main.go!"
-	sed -i 's!/usr/share/icons/onedriver/onedriver-128.png!/usr/share/icons/hicolor/128x128/apps/onedriver-128.png!' cmd/onedriver-launcher/main.go || die "Icon location couldn't be changed in cmd/onedriver-launcher/main.go!"
-	sed -i 's!Icon=/usr/share/icons/onedriver/onedriver.svg!Icon=/usr/share/pixmaps/onedriver.svg!' resources/onedriver-launcher.desktop || die "Icon location couldn't be changed in onedriver-launcher.desktop!"
+	sed -i -e 's!/usr/share/icons/onedriver/onedriver.png!/usr/share/icons/hicolor/256x256/apps/onedriver.png!' \
+		cmd/onedriver/main.go || die "Couldn't change icon location in cmd/onedriver/main.go!"
+
+	sed -i 's!/usr/share/icons/onedriver/onedriver-128.png!/usr/share/icons/hicolor/128x128/apps/onedriver-128.png!' \
+		cmd/onedriver-launcher/main.go || die "Couldn't change icon location in cmd/onedriver-launcher/main.go!"
+
+	sed -i 's!Icon=/usr/share/icons/onedriver/onedriver.svg!Icon=/usr/share/pixmaps/onedriver.svg!' \
+		resources/onedriver-launcher.desktop || die "Couldn't change icon location in onedriver-launcher.desktop!"
 
 	eapply_user
 }
