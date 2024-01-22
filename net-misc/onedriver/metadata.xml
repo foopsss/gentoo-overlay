@@ -2,11 +2,12 @@
 <!DOCTYPE pkgmetadata SYSTEM 'https://www.gentoo.org/dtd/metadata.dtd'>
 <pkgmetadata>
 	<maintainer type="person">
-		<email>46837214+foopsss@users.noreply.github.com</email>
-		<name>Lucas Benchat</name>
+		<name>Lucas Ivan Benchat Parra</name>
+		<email>libenchat@hotmail.com</email>
 	</maintainer>
 	<upstream>
 		<bugs-to>https://github.com/jstaf/onedriver/issues</bugs-to>
+		<remote-id type="github">jstaf/onedriver</remote-id>
 	</upstream>
 	<use>
 		<flag name="gui">Enable support for a graphical user interface using GTK3. This flag also pulls in systemd, since the graphical interface depends on it.</flag>
