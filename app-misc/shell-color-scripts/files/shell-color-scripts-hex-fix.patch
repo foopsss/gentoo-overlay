@@ -1,0 +1,25 @@
+# Patch made by Giacomo Bettini.
+# Taken from shell-color-scripts' MR 36.
+# This makes the hex color script display a list of default colours if xdef doesn't exist.
+
+--- shell-color-scripts/colorscripts/hex
++++ shell-color-scripts-patch/colorscripts/hex
+@@ -4,7 +4,17 @@
+ # Source: http://crunchbang.org/forums/viewtopic.php?pid=135226#p135226
+ 
+ xdef="${XRESOURCES:-$HOME/.Xresources}"
+-colors=( $( sed -re '/^!/d; /^$/d; /^#/d; s/(\*color)([0-9]):/\10\2:/g;' $xdef | grep -E 'color[0-9]+:' | sort | sed  's/^.*: *//g' ) )
++if [[ -f $xdef ]]; then
++    colors=( $( sed -re '/^!/d; /^$/d; /^#/d; s/(\*color)([0-9]):/\10\2:/g;' $xdef | grep -E 'color[0-9]+:' | sort | sed  's/^.*: *//g' ) )
++else
++    # Use default colors as defined in gitlab.com/dwt1 's .Xresources
++    colors=(
++        "#1c1f24" "#4db5bd" "#ecbe7b" "#3071db"
++        "#a9a1e1" "#46d9ff" "#dfdfdf" "#ff6c6b"
++        "#98be65" "#da8548" "#51afef" "#c678dd"
++        "#5699af" "#202328" "#5b6268" "#da8548"
++    )
++fi
+ 
+ echo -e "\e[1;97m 
+  Black    Red      Green    Yellow   Blue     Magenta   Cyan    White   
