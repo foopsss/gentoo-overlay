@@ -49,7 +49,7 @@ pkg_postinst() {
 	mandb
 
 	elog "shell-color-scripts includes shell completions for the Fish and Zsh shells."
-	elog "A help page for the program can be read using 'colorscript -h' or 'man colorscript'."
+	elog "A help page can be read using 'colorscript -h' or 'man colorscript'."
 	elog "All the colorscripts are installed to '/opt/shell-color-scripts/colorscripts'."
 
 	elog "This package offers a patched 'hex' color script to show DT's list of colours if the"
