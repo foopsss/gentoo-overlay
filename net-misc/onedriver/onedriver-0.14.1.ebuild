@@ -13,7 +13,7 @@ SRC_URI+=" https://github.com/foopsss/gentoo-overlay/releases/download/v${PV}/${
 LICENSE="GPL-3 Apache-2.0 BSD BSD-2 ISC MIT"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="gui"
+IUSE="systemd"
 
 # Tests require to be online, so they have to be restricted.
 RESTRICT="test"
@@ -24,7 +24,7 @@ DEPEND="
 	net-libs/webkit-gtk:4.1
 "
 RDEPEND="
-	gui? (
+	systemd? (
 		sys-apps/systemd
 	)
 	=sys-fs/fuse-2.9.9-r2
@@ -33,29 +33,13 @@ BDEPEND="
 	virtual/pkgconfig
 "
 
-src_prepare() {
-	# Change the name of the .desktop file.
-	# This fixes the absence of the onedriver icon in the GNOME task switcher.
-	mv pkg/resources/onedriver.desktop pkg/resources/onedriver-launcher.desktop || die "Couldn't rename onedriver.desktop!"
-
-	# Change the location of the onedriver logos.
-	# These changes are made with the intention of using more standard paths for app icons.
-	sed -i -e 's!/usr/share/icons/onedriver/onedriver.png!/usr/share/icons/hicolor/256x256/apps/onedriver.png!' \
-	cmd/onedriver/main.go || die "Couldn't change icon location in cmd/onedriver/main.go!"
-
-	sed -i 's!/usr/share/icons/onedriver/onedriver-128.png!/usr/share/icons/hicolor/128x128/apps/onedriver-128.png!' \
-	cmd/onedriver-launcher/main.go || die "Couldn't change icon location in cmd/onedriver-launcher/main.go!"
-
-	sed -i 's!Icon=/usr/share/icons/onedriver/onedriver.svg!Icon=/usr/share/pixmaps/onedriver.svg!' \
-	pkg/resources/onedriver-launcher.desktop || die "Couldn't change icon location in onedriver-launcher.desktop!"
-
-	eapply_user
-}
+PATCHES=(
+	"${FILESDIR}"/${P}-icon-path-change.patch
+)
 
 src_compile() {
 	emake onedriver
-
-	if use gui; then
+	if use systemd; then
 		emake onedriver-launcher
 	fi
 }
@@ -63,7 +47,7 @@ src_compile() {
 src_install() {
 	dobin onedriver
 
-	if use gui; then
+	if use systemd; then
 		dobin onedriver-launcher
 		doicon pkg/resources/onedriver.svg
 		doicon -s 128 pkg/resources/onedriver-128.png
@@ -77,24 +61,24 @@ src_install() {
 }
 
 pkg_postinst() {
-	if use gui; then
+	if use systemd; then
 		xdg_desktop_database_update
 		xdg_icon_cache_update
 	fi
 	mandb
 
-	elog "onedriver can be configured with a config file at '~/.config/onedriver/config.yml'."
+	elog "This version of onedriver does not yet support shared items"
+	elog "or Microsoft SharePoint. Moreover, mounting the filesystem"
+	elog "from the GUI and on log-in currently requires systemd."
 	elog ""
-	elog "It should be noted that this version of onedriver does not yet support shared items"
-	elog "or Microsoft SharePoint. Moreover, mounting the filesystem from the GUI and on log-in"
-	elog "currently requires systemd, due to using a unit file to do so."
+	elog "However, the filesystem itself works with other init systems"
+	elog "if mounted through the CLI."
 	elog ""
-	elog "However, the filesystem itself works with other init systems if mounted through the"
-	elog "CLI. For more information see: https://github.com/jstaf/onedriver/issues/229."
+	elog "See: https://github.com/jstaf/onedriver/issues/229."
 }
 
 pkg_postrm() {
-	if use gui; then
+	if use systemd; then
 		xdg_desktop_database_update
 		xdg_icon_cache_update
 	fi

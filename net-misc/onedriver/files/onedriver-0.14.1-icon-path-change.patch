@@ -1,0 +1,53 @@
+# This patch does two things:
+# 1) Change the location of the onedriver logos loaded by the app to use more
+#    standard locations. This allows me to use the doicon functions from the
+#    desktop eclass in src_install().
+# 2) Move pkg/resources/onedriver.desktop to onedriver-launcher.desktop. At
+#    least on GNOME, if running a Wayland session, apps show up with a
+#    placeholder icon on the overview if their .desktop files don't have the
+#    same name as the processes they run.
+
+--- onedriver/cmd/onedriver/main.go
++++ onedriver-patch/cmd/onedriver/main.go
+@@ -168,8 +168,8 @@
+ 	}
+ 
+ 	xdgVolumeInfo := fmt.Sprintf("[Volume Info]\nName=%s\n", user.UserPrincipalName)
+-	if _, err := os.Stat("/usr/share/icons/onedriver/onedriver.png"); err == nil {
+-		xdgVolumeInfo += "IconFile=/usr/share/icons/onedriver/onedriver.png\n"
++	if _, err := os.Stat("/usr/share/icons/hicolor/256x256/apps/onedriver.png"); err == nil {
++		xdgVolumeInfo += "IconFile=/usr/share/icons/hicolor/256x256/apps/onedriver.png\n"
+ 	}
+ 
+ 	// just upload directly and shove it in the cache
+--- onedriver/cmd/onedriver-launcher/main.go
++++ onedriver-patch/cmd/onedriver-launcher/main.go
+@@ -159,7 +159,7 @@
+ 		aboutDialog.SetWebsiteLabel("github.com/jstaf/onedriver")
+ 		aboutDialog.SetVersion(fmt.Sprintf("onedriver %s", common.Version()))
+ 		aboutDialog.SetLicenseType(gtk.LICENSE_GPL_3_0)
+-		logo, err := gtk.ImageNewFromFile("/usr/share/icons/onedriver/onedriver-128.png")
++		logo, err := gtk.ImageNewFromFile("/usr/share/icons/hicolor/128x128/apps/onedriver-128.png")
+ 		if err != nil {
+ 			log.Error().Err(err).Msg("Could not find logo.")
+ 		} else {
+--- onedriver/pkg/resources/onedriver.desktop
++++ onedriver-patch/pkg/resources/onedriver.desktop
+@@ -1,7 +0,0 @@
+-[Desktop Entry]
+-Name=Onedriver
+-Comment=Mount a Microsoft OneDrive account as a Linux filesystem.
+-Type=Application
+-Exec=/usr/bin/onedriver-launcher
+-Icon=/usr/share/icons/onedriver/onedriver.svg
+-Categories=Utility
+--- onedriver/pkg/resources/onedriver-launcher.desktop
++++ onedriver-patch/pkg/resources/onedriver-launcher.desktop
+@@ -0,0 +1,7 @@
++[Desktop Entry]
++Name=Onedriver
++Comment=Mount a Microsoft OneDrive account as a Linux filesystem.
++Type=Application
++Exec=/usr/bin/onedriver-launcher
++Icon=/usr/share/pixmaps/onedriver.svg
++Categories=Utility

@@ -10,6 +10,6 @@
 		<remote-id type="github">jstaf/onedriver</remote-id>
 	</upstream>
 	<use>
-		<flag name="gui">Enable support for a graphical user interface using GTK3. This flag also pulls in systemd, since the graphical interface depends on it.</flag>
+		<flag name="systemd">Enable support for a GUI that uses GTK3. Currently requires systemd.</flag>
 	</use>
 </pkgmetadata>
