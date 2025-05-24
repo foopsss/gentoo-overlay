@@ -41,6 +41,10 @@ PATCHES=(
 )
 
 src_compile() {
+	# TODO: see if there's a better way to build the package.
+	# The current way works but it might not respect user-defined
+	# GOFLAGS, although I'm not sure.
+	# See: https://wiki.gentoo.org/wiki/Writing_go_Ebuilds.
 	emake onedriver
 	if use systemd; then
 		emake onedriver-launcher
