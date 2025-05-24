@@ -10,10 +10,10 @@ HOMEPAGE="https://github.com/jstaf/onedriver"
 SRC_URI="https://github.com/jstaf/onedriver/archive/refs/tags/v${PV}.tar.gz -> ${P}.tar.gz"
 SRC_URI+=" https://github.com/foopsss/gentoo-overlay/releases/download/v${PV}/${P}-deps.tar.xz"
 
-LICENSE="GPL-3 Apache-2.0 BSD-2-Clause ISC BSD-3-Clause MIT"
+LICENSE="GPL-3 Apache-2.0 BSD BSD-2 ISC MIT"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="-gui"
+IUSE="gui"
 
 # Tests require to be online, so they have to be restricted.
 RESTRICT="test"
