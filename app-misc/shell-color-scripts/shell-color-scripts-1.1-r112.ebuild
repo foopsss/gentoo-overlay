@@ -3,6 +3,8 @@
 
 EAPI=8
 
+inherit shell-completion
+
 DESCRIPTION="Collection of 50+ beautiful terminal color scripts."
 HOMEPAGE="https://gitlab.com/dwt1/shell-color-scripts"
 
@@ -15,8 +17,8 @@ SLOT="0"
 KEYWORDS="~amd64"
 
 BDEPEND="
-    dev-build/make
-    sys-devel/binutils
+	dev-build/make
+	sys-devel/binutils
 "
 
 src_prepare() {
@@ -30,16 +32,11 @@ src_install() {
 	dobin colorscript
 
 	insopts -m 0755
-	insinto /usr/share/zsh
-	doins completions/_colorscript
-
-	insopts -m 0755
-	insinto /usr/share/fish/vendor_completions.d
-	doins completions/colorscript.fish
-
-	insopts -m 0755
 	insinto /opt/shell-color-scripts/colorscripts
 	doins -r colorscripts/*
+
+	dofishcomp completions/colorscript.fish
+	dozshcomp completions/_colorscript
 
 	doman colorscript.1
 	dodoc README.md
@@ -52,9 +49,9 @@ pkg_postinst() {
 	elog "A help page can be read using 'colorscript -h' or 'man colorscript'."
 	elog "All the colorscripts are installed to '/opt/shell-color-scripts/colorscripts'."
 
-	elog "This package offers a patched 'hex' color script to show DT's list of colours if the"
-	elog ".Xresources file cannot be found. This patch was pulled from merge request 36 and"
-	elog "can be found at: https://gitlab.com/dwt1/shell-color-scripts/-/merge_requests/36."
+	elog "This package offers a patched 'hex' color script to show DT's list of colours"
+	elog "if the .Xresources file cannot be found. More information about the patch can"
+	elog "be read on https://gitlab.com/dwt1/shell-color-scripts/-/merge_requests/36."
 }
 
 pkg_postrm() {
