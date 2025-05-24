@@ -13,24 +13,27 @@ SRC_URI+=" https://github.com/foopsss/gentoo-overlay/releases/download/v${PV}/${
 LICENSE="GPL-3 Apache-2.0 BSD BSD-2 ISC MIT"
 SLOT="0"
 KEYWORDS="~amd64"
+
+# systemd is needed for the GUI. Maybe this is not the best USE flag
+# to reflect such a thing, but pkgcheck won't be happy otherwise.
 IUSE="systemd"
 
 # Tests require to be online, so they have to be restricted.
 RESTRICT="test"
 
-DEPEND="
-	dev-lang/go
-	dev-libs/json-glib
-	net-libs/webkit-gtk:4.1
-"
+COMMON_DEPEND="dev-libs/json-glib"
 RDEPEND="
+	${COMMON_DEPEND}
 	systemd? (
 		sys-apps/systemd
 	)
-	=sys-fs/fuse-2.9.9-r2
+	sys-fs/fuse:0
+	net-libs/webkit-gtk:4.1
 "
+DEPEND="${COMMON_DEPEND}"
 BDEPEND="
 	virtual/pkgconfig
+	dev-lang/go
 "
 
 PATCHES=(
@@ -60,13 +63,16 @@ src_install() {
 	dodoc README.md
 }
 
-pkg_postinst() {
+db_cache_update() {
 	if use systemd; then
 		xdg_desktop_database_update
 		xdg_icon_cache_update
 	fi
 	mandb
+}
 
+pkg_postinst() {
+	db_cache_update
 	elog "This version of onedriver does not yet support shared items"
 	elog "or Microsoft SharePoint. Moreover, mounting the filesystem"
 	elog "from the GUI and on log-in currently requires systemd."
@@ -78,9 +84,5 @@ pkg_postinst() {
 }
 
 pkg_postrm() {
-	if use systemd; then
-		xdg_desktop_database_update
-		xdg_icon_cache_update
-	fi
-	mandb
+	db_cache_update
 }
