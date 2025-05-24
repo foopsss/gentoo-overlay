@@ -1,5 +1,5 @@
 # Patch made by Giacomo Bettini.
-# Taken from shell-color-scripts' MR 36.
+# Taken from: https://gitlab.com/dwt1/shell-color-scripts/-/merge_requests/36.
 # This makes the hex color script display a list of default colours if xdef doesn't exist.
 
 --- shell-color-scripts/colorscripts/hex
