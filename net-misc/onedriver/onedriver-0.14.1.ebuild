@@ -21,19 +21,27 @@ IUSE="systemd"
 # Tests require to be online, so they have to be restricted.
 RESTRICT="test"
 
-COMMON_DEPEND="dev-libs/json-glib"
+COMMON_DEPEND="
+	app-accessibility/at-spi2-core:2
+	dev-libs/glib:2
+	dev-libs/json-glib
+	media-libs/harfbuzz
+	net-libs/libsoup:3.0
+	net-libs/webkit-gtk:4.1
+	x11-libs/cairo
+	x11-libs/gdk-pixbuf:2
+	x11-libs/gtk+:3
+	x11-libs/pango
+"
 RDEPEND="
 	${COMMON_DEPEND}
-	systemd? (
-		sys-apps/systemd
-	)
 	sys-fs/fuse:0
-	net-libs/webkit-gtk:4.1
+	systemd? ( sys-apps/systemd )
 "
 DEPEND="${COMMON_DEPEND}"
 BDEPEND="
+	>=dev-lang/go-1.17
 	virtual/pkgconfig
-	dev-lang/go
 "
 
 PATCHES=(
@@ -46,6 +54,7 @@ src_compile() {
 	# GOFLAGS, although I'm not sure.
 	# See: https://wiki.gentoo.org/wiki/Writing_go_Ebuilds.
 	emake onedriver
+
 	if use systemd; then
 		emake onedriver-launcher
 	fi
