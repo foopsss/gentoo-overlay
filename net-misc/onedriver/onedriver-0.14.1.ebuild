@@ -22,6 +22,9 @@ IUSE="systemd"
 RESTRICT="test"
 
 COMMON_DEPEND="
+	# Even the CLI "onedriver" binary asks for the GUI dependencies
+	# at runtime when checked with "lddtree" and "readelf". That's
+	# why they're added as COMMON_DEPEND.
 	app-accessibility/at-spi2-core:2
 	dev-libs/glib:2
 	dev-libs/json-glib
